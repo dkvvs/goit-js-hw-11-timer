@@ -1,22 +1,20 @@
 class CountdownTimer {
-  intervalId = null;
   constructor({ selector, targetDate }) {
     this.refs(selector);
+    this.targetDate = targetDate;
+    this.timeFunc();
+    this.intervalId = setInterval(() => this.timeFunc(), 1000);
+  }
 
-    const timeFunc = () => {
-      const currentTime = Date.now();
-      if (targetDate > currentTime) {
-        this.updateClockface(targetDate - currentTime);
-      } else {
-        clearInterval(this.intervalId);
-        this.intervalId = null;
-        this.printClockValue('000', '00', '00', '00');
-      }
-    };
-
-    timeFunc();
-
-    this.intervalId = setInterval(timeFunc, 1000);
+  timeFunc() {
+    const currentTime = Date.now();
+    if (this.targetDate > currentTime) {
+      this.updateClockface(this.targetDate - currentTime);
+    } else {
+      clearInterval(this.intervalId);
+      this.intervalId = null;
+      this.printClockValue('000', '00', '00', '00');
+    }
   }
 
   refs(selector) {
